@@ -56,6 +56,20 @@ const deletePrompt = async (promptId) => {
   }
 };
 
+// Update prompt text in the database
+const updatePrompt = async (prompt, text) => {
+  try {
+    await axios.put(`http://localhost:5221/api/promptentries/${prompt.value.id}`, {
+      prompt: prompt.value.prompt,
+      text: text
+    });
+    console.log('Prompt updated:', prompt.value.id);
+    await fetchPrompts();
+  } catch (error) {
+    console.error('Failed to update prompt:', error);
+  }
+};
+
 onMounted(async () => {
   // Get the list of prompts from the backend
   await fetchPrompts();
@@ -67,8 +81,8 @@ onMounted(async () => {
 <template>
   <div class="app">
     <SideBar :promptList="promptList" @delete-prompt="deletePrompt" />
-    <TextEditor :prompt="prompt" />
-    <PromptInput v-if="promptInputVisible == true" @prompt-submitted="handlePromptSubmitted" />
+    <TextEditor :prompt="prompt" @save-text="updatePrompt" />
+    <PromptInput v-if="promptInputVisible == true" @prompt-submitted="handlePromptSubmitted" @close-input="togglePromptInput" />
   </div>
 </template>
 

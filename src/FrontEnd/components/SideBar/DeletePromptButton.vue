@@ -4,7 +4,7 @@ export default {
   props: {
     promptId: {
       type: String,
-      required: true
+      required: false
     }
   },
   methods: {

@@ -1,6 +1,15 @@
 <script>
+import GeneratePromptButton from './GeneratePromptButton.vue';
+import SubmitPromptButton from './SubmitPromptButton.vue';
+import DeletePromptButton from '../SideBar/DeletePromptButton.vue'; // Sorry...
+
 export default {
   name: 'PromptInput',
+  components: {
+    GeneratePromptButton,
+    SubmitPromptButton,
+    DeletePromptButton
+  },
   methods: {
     submitPrompt() {
       if (this.$refs.promptTextarea.value.trim() === '') { // Check if the textarea is empty
@@ -11,6 +20,9 @@ export default {
         this.$emit('prompt-submitted', this.$refs.promptTextarea.value);
         this.$refs.promptTextarea.value = '';
       }
+    },
+    closeInput() {
+      this.$emit('close-input');
     }
   }
 }
@@ -19,6 +31,8 @@ export default {
 <template>
   <div class="prompt-input">
     <h1>Enter your writing prompt:</h1>
+    <DeletePromptButton @delete-prompt="closeInput" />
+
     <textarea
       ref="promptTextarea"
       class="prompt-textarea"
@@ -28,10 +42,10 @@ export default {
 
     <div class="AI-prompt">
       <h2> Or, use AI to generate a prompt:</h2>
-      <button class="generate-prompt-button">Generate Prompt</button>
+      <GeneratePromptButton @generate="submitPrompt" />
     </div>
 
-    <button class="submit-prompt-button" @click="submitPrompt">Submit Prompt</button>
+    <SubmitPromptButton @submit="submitPrompt" />
   </div>
 </template>
 
@@ -52,6 +66,17 @@ h1{ /* Prompt Input Title */
   font-weight: bold;
   padding-bottom: 10px;
   border-bottom: 1px solid rgb(185, 183, 183);
+}
+.delete-prompt-button { /* Delete Prompt Button */
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  color: white;
+
+}
+.delete-prompt-button:hover {
+  color: red;
 }
 .prompt-textarea { /* Textarea for user input */
   width: 90%;
@@ -78,31 +103,4 @@ h2 { /*AI Prompt Title */
   color: rgb(241, 239, 239);
   font-weight: bold;
 }
-button{
-  width: 20%;
-  height: 50px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  background-color: rgb(255, 255, 255);
-  border: 1px solid rgb(200, 200, 200);
-  border-radius: 5px;
-  cursor: pointer;
-}
-button:hover {
-  background-color: rgb(200, 200, 200);
-}
-.generate-prompt-button { /* Button to generate AI prompt */
-  position: absolute;
-  margin-left: 73%;
-  margin-top: 10px;
-
-}
-.submit-prompt-button { /* Button to submit the prompt */
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 35%;
-}
-
 </style>

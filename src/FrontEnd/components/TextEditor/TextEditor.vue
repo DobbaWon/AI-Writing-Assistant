@@ -12,6 +12,11 @@ export default {
     prompt: {
       type: String,
       default: 'No Prompt Provided'
+    },
+  },
+  methods: {
+    saveText() {
+      this.$emit('save-text', this.prompt, this.$refs.editorTextarea.value);
     }
   },
 }
@@ -19,8 +24,8 @@ export default {
 
 <template>
   <div class="text-editor">
-    <EditorHeader :prompt="prompt" />
-    <textarea class="editor-textarea" placeholder="Type your text here..."></textarea>
+    <EditorHeader :prompt="prompt" @save-text="saveText" />
+    <textarea class="editor-textarea" placeholder="Type your text here..." ref="editorTextarea"></textarea>
     <FeedbackBox />
   </div>
 </template>
