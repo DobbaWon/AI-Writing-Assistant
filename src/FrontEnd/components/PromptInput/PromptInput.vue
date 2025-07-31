@@ -19,7 +19,12 @@ export default {
 <template>
   <div class="prompt-input">
     <h1>Enter your writing prompt:</h1>
-    <textarea ref="promptTextarea" class="prompt-textarea" placeholder="Type your prompt here..."></textarea>
+    <textarea
+      ref="promptTextarea"
+      class="prompt-textarea"
+      placeholder="Type your prompt here..."
+      @keydown.enter.prevent="submitPrompt"
+    />
 
     <div class="AI-prompt">
       <h2> Or, use AI to generate a prompt:</h2>

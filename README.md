@@ -17,12 +17,13 @@ TODO List:
 [x] Set up Database
 [x] Save Prompt and Text to Database
 [x] Load Prompts from Database and store in Sidebar
-[ ] Delete Prompts
+[x] Delete Prompts
 [ ] Load Text from Database and store in TextEditor
 [ ] Signify open Prompt in Sidebar
 [ ] New Prompt Button in Sidebar
 [ ] Hide Sidebar Button in Sidebar
 [ ] New Prompt Button in Sidebar
+[ ] Search Prompts in Sidebar
 [ ] Set up OpenAPI
 [ ] AI Generated Prompts
 [ ] AI Feedback

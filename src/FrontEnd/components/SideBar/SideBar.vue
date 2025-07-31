@@ -1,4 +1,6 @@
 <script>
+import DeletePromptButton from './DeletePromptButton.vue';
+
 export default {
   name: 'SideBar',
   props: {
@@ -8,7 +10,21 @@ export default {
     },
   },
   components: {
-    DeletePromptButton: () => import('./DeletePromptButton.vue'),
+    DeletePromptButton,
+  },
+  methods: {
+    handleDeletePrompt(promptId) {
+      this.$emit('delete-prompt', promptId);
+    },
+    formatLastModified(date) {
+      return new Date(date).toLocaleDateString('en-GB', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
   },
 }
 </script>
@@ -16,8 +32,9 @@ export default {
 <template>
   <div class="sidebar">
     <ul>
-      <li v-for="(item, index) in promptList" :key="item.id">
+      <li v-for="(item, index) in promptList" :key="index">
         {{ item.prompt }}
+        <DeletePromptButton :promptId="item.id" @delete-prompt="handleDeletePrompt" />
       </li>
     </ul>
   </div>
@@ -35,9 +52,20 @@ export default {
   padding: 0;
 }
 .sidebar li {
-  padding: 10px;
+  padding: 20px;
+  margin-bottom: 4px;
   color: white;
   cursor: pointer;
-  font-size: 2rem;
+  font-size: 1.5rem;
+  background-color: #121212;
+}
+.sidebar li:hover {
+  background-color: #2c2c2c;
+}
+.delete-prompt-button {
+  float: right;
+}
+.delete-prompt-button:hover {
+  color: red;
 }
 </style>

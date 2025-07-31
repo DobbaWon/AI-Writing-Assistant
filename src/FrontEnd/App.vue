@@ -45,6 +45,17 @@ const fetchPrompts = async () => {
   }
 };
 
+// Delete prompt given its ID:
+const deletePrompt = async (promptId) => {
+  try {
+    await axios.delete(`http://localhost:5221/api/promptentries/${promptId}`);
+    console.log('Prompt deleted:', promptId);
+    await fetchPrompts();
+  } catch (error) {
+    console.error('Failed to delete prompt:', error);
+  }
+};
+
 onMounted(async () => {
   // Get the list of prompts from the backend
   await fetchPrompts();
@@ -55,7 +66,7 @@ onMounted(async () => {
 
 <template>
   <div class="app">
-    <SideBar :promptList="promptList" />
+    <SideBar :promptList="promptList" @delete-prompt="deletePrompt" />
     <TextEditor :prompt="prompt" />
     <PromptInput v-if="promptInputVisible == true" @prompt-submitted="handlePromptSubmitted" />
   </div>

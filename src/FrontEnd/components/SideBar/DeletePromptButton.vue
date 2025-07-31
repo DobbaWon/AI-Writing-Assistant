@@ -17,21 +17,17 @@ export default {
 
 <template>
   <button @click="deletePrompt" class="delete-prompt-button">
-    Delete Prompt
+    X
   </button>
 </template>
 
 <style scoped>
 .delete-prompt-button {
-  background-color: #ff4d4d;
   color: white;
+  background: none;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+  margin-top: 5px;
   cursor: pointer;
   font-size: 1rem;
-}
-.delete-prompt-button:hover {
-  background-color: #ff1a1a;
 }
 </style>
