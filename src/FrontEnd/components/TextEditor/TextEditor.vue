@@ -10,13 +10,30 @@ export default {
   },
   props: {
     prompt: {
-      type: String,
-      default: 'No Prompt Provided'
-    },
+      type: Object,
+      default: () => ({ prompt: 'No Prompt Provided', text: '' })
+    }
   },
   methods: {
     saveText() {
-      this.$emit('save-text', this.prompt, this.$refs.editorTextarea.value);
+      this.$emit('save-text', this.prompt, this.editorText);
+    }
+  },
+  data() {
+    return {
+      editorText: '',
+    };
+  },
+  watch: {
+    prompt: {
+      immediate: true,
+      handler(newPrompt) {
+        if (newPrompt && newPrompt.text !== undefined) {
+          this.editorText = newPrompt.text;
+        } else {
+          this.editorText = "";
+        }
+      }
     }
   },
 }
@@ -24,8 +41,8 @@ export default {
 
 <template>
   <div class="text-editor">
-    <EditorHeader :prompt="prompt" @save-text="saveText" />
-    <textarea class="editor-textarea" placeholder="Type your text here..." ref="editorTextarea"></textarea>
+    <EditorHeader :prompt="prompt.prompt" @save-text="saveText" />
+    <textarea class="editor-textarea" placeholder="Type your text here..." v-model="editorText"></textarea>
     <FeedbackBox />
   </div>
 </template>
@@ -48,7 +65,7 @@ export default {
   border-bottom: 2px solid #7e7e7e;
 
   background-color: rgb(32, 32, 32);
-
+  color: white;
 }
 </style>
 

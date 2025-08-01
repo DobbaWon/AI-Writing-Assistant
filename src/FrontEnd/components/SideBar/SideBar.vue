@@ -16,6 +16,9 @@ export default {
     handleDeletePrompt(promptId) {
       this.$emit('delete-prompt', promptId);
     },
+    handleSelectPrompt(item) {
+      this.$emit('select-prompt', item); // item = promptID
+    },
     formatLastModified(date) {
       return new Date(date).toLocaleDateString('en-GB', {
         year: 'numeric',
@@ -33,8 +36,10 @@ export default {
   <div class="sidebar">
     <ul>
       <li v-for="(item, index) in promptList" :key="index">
-        {{ item.prompt }}
-        <DeletePromptButton :promptId="item.id" @delete-prompt="handleDeletePrompt" />
+        <div class="prompt-title" @click="handleSelectPrompt(item)">
+          {{ item.prompt }}
+          <DeletePromptButton :promptId="item.id" @delete-prompt="handleDeletePrompt" />
+        </div>
       </li>
     </ul>
   </div>

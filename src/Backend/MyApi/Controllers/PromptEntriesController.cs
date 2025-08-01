@@ -87,5 +87,15 @@ namespace MyApi.Controllers
 
             return NoContent();
         }
+
+        // 6. GET: api/promptentries/{id}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPrompt(int id)
+        {
+            var prompt = await _context.PromptEntries.FindAsync(id);
+            if (prompt == null) return NotFound();
+            return Ok(prompt);
+        }
+
     }
 }

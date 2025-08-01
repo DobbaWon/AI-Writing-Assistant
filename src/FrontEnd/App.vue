@@ -8,6 +8,7 @@ import axios from 'axios';
 const promptInputVisible = ref(true);
 const promptList = ref([]);
 const prompt = ref('');
+const currentPrompt = ref({}); // Dirty fix to hold the current prompt data
 
 // Function to toggle the visibility of the PromptInput component
 const togglePromptInput = () => {
@@ -16,23 +17,31 @@ const togglePromptInput = () => {
 
 // Function to handle the prompt submission from PromptInput
 const handlePromptSubmitted = async (submittedPrompt) => {
-  prompt.value = submittedPrompt;
-
   try {
-    await axios.post('http://localhost:5221/api/promptentries', {
+    // Create the new prompt
+    const response = await axios.post('http://localhost:5221/api/promptentries', {
       prompt: submittedPrompt,
       text: '',
     });
+
     console.log('Prompt successfully saved to DB');
 
+    await fetchPrompts(); // Refresh the prompt list
 
+    // Find the newly added prompt from the list (latest by name match)
+    const newPrompt = promptList.value.find(p => p.prompt === submittedPrompt);
+    if (newPrompt && newPrompt.id) {
+      await fetchCurrentPrompt(newPrompt.id);
+    } else {
+      console.warn('Could not find newly added prompt in promptList');
+    }
+
+    togglePromptInput();
   } catch (error) {
-    console.error('Failed to save prompt:', error);
+    console.error('Failed to save or fetch new prompt:', error);
   }
-
-  await fetchPrompts();
-  togglePromptInput();
 };
+
 
 // Function to fetch the list of prompts from the backend
 const fetchPrompts = async () => {
@@ -59,14 +68,35 @@ const deletePrompt = async (promptId) => {
 // Update prompt text in the database
 const updatePrompt = async (prompt, text) => {
   try {
-    await axios.put(`http://localhost:5221/api/promptentries/${prompt.value.id}`, {
-      prompt: prompt.value.prompt,
-      text: text
+    await axios.put(`http://localhost:5221/api/promptentries/${prompt.id}`, {
+      Prompt: prompt.prompt,
+      Text: text
     });
-    console.log('Prompt updated:', prompt.value.id);
+    console.log('Prompt updated:', prompt.id);
     await fetchPrompts();
   } catch (error) {
     console.error('Failed to update prompt:', error);
+  }
+};
+
+
+const fetchCurrentPrompt = async (promptId) => {
+  try {
+    const response = await axios.get(`http://localhost:5221/api/promptentries/${promptId}`);
+    currentPrompt.value = response.data;
+    console.log('Current prompt fetched:', currentPrompt.value);
+  } catch (error) {
+    console.error('Failed to fetch current prompt:', error);
+  }
+};
+
+ const handleSelectPrompt = async (item) => {
+  if (typeof item === 'object' && item.id) {
+    await fetchCurrentPrompt(item.id);
+  } else if (typeof item === 'number') {
+    await fetchCurrentPrompt(promptList.value[item].id);
+  } else {
+    console.warn('Invalid prompt selection:', item);
   }
 };
 
@@ -80,8 +110,8 @@ onMounted(async () => {
 
 <template>
   <div class="app">
-    <SideBar :promptList="promptList" @delete-prompt="deletePrompt" />
-    <TextEditor :prompt="prompt" @save-text="updatePrompt" />
+    <SideBar :promptList="promptList" @delete-prompt="deletePrompt" @select-prompt="handleSelectPrompt" />
+    <TextEditor :prompt="currentPrompt" @save-text="updatePrompt" />
     <PromptInput v-if="promptInputVisible == true" @prompt-submitted="handlePromptSubmitted" @close-input="togglePromptInput" />
   </div>
 </template>

@@ -16,7 +16,7 @@ export default {
 </script>
 
 <template>
-  <button @click="deletePrompt" class="delete-prompt-button">
+  <button @click.stop="deletePrompt" class="delete-prompt-button">
     X
   </button>
 </template>
