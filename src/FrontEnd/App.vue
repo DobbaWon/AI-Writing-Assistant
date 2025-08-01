@@ -7,7 +7,6 @@ import axios from 'axios';
 
 const promptInputVisible = ref(true);
 const promptList = ref([]);
-const prompt = ref('');
 const currentPrompt = ref({}); // Dirty fix to hold the current prompt data
 
 // Function to toggle the visibility of the PromptInput component
@@ -19,7 +18,7 @@ const togglePromptInput = () => {
 const handlePromptSubmitted = async (submittedPrompt) => {
   try {
     // Create the new prompt
-    const response = await axios.post('http://localhost:5221/api/promptentries', {
+    const _ = await axios.post('http://localhost:5221/api/promptentries', {
       prompt: submittedPrompt,
       text: '',
     });
@@ -110,9 +109,20 @@ onMounted(async () => {
 
 <template>
   <div class="app">
-    <SideBar :promptList="promptList" @delete-prompt="deletePrompt" @select-prompt="handleSelectPrompt" />
+    <SideBar
+      :promptList="promptList" 
+      :current-prompt="currentPrompt" 
+      @delete-prompt="deletePrompt" 
+      @select-prompt="handleSelectPrompt" 
+    />
+
     <TextEditor :prompt="currentPrompt" @save-text="updatePrompt" />
-    <PromptInput v-if="promptInputVisible == true" @prompt-submitted="handlePromptSubmitted" @close-input="togglePromptInput" />
+
+    <PromptInput
+      v-if="promptInputVisible == true" 
+      @prompt-submitted="handlePromptSubmitted" 
+      @close-input="togglePromptInput" 
+    />
   </div>
 </template>
 

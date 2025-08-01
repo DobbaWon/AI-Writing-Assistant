@@ -19,7 +19,7 @@ TODO List:
 [x] Load Prompts from Database and store in Sidebar
 [x] Delete Prompts
 [x] Save Text to DB
-[ ] Load Text from Database and store in TextEditor
+[x] Load Text from Database and store in TextEditor
 [ ] Signify open Prompt in Sidebar
 [ ] New Prompt Button in Sidebar
 [ ] Hide Sidebar Button in Sidebar

@@ -8,6 +8,10 @@ export default {
       type: Array,
       required: true
     },
+    currentPrompt: {
+      type: Object,
+      default: () => ({})
+    }
   },
   components: {
     DeletePromptButton,
@@ -35,11 +39,14 @@ export default {
 <template>
   <div class="sidebar">
     <ul>
-      <li v-for="(item, index) in promptList" :key="index">
-        <div class="prompt-title" @click="handleSelectPrompt(item)">
-          {{ item.prompt }}
-          <DeletePromptButton :promptId="item.id" @delete-prompt="handleDeletePrompt" />
-        </div>
+      <li
+        v-for="(item, index) in promptList"
+        :key="index"
+        :class="{'current-prompt-title': currentPrompt.prompt === item.prompt}"
+        @click="handleSelectPrompt(item)"
+      >
+        {{ item.prompt }}
+        <DeletePromptButton :promptId="item.id" @delete-prompt="handleDeletePrompt" />
       </li>
     </ul>
   </div>
@@ -63,6 +70,11 @@ export default {
   cursor: pointer;
   font-size: 1.5rem;
   background-color: #121212;
+  border-radius: 15px;
+  transition: background-color 0.3s ease;
+}
+.current-prompt-title {
+  background-color: #4b4b4b !important; /* I love that labelling it important fixed my issue */
 }
 .sidebar li:hover {
   background-color: #2c2c2c;
