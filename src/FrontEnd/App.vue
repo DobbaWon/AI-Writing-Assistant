@@ -8,10 +8,16 @@ import axios from 'axios';
 const promptInputVisible = ref(true);
 const promptList = ref([]);
 const currentPrompt = ref({}); // Dirty fix to hold the current prompt data
+const searchPromptPopupVisible = ref(false);
 
 // Function to toggle the visibility of the PromptInput component
 const togglePromptInput = () => {
   promptInputVisible.value = !promptInputVisible.value;
+};
+
+// Function to handle the search prompt action
+const toggleSearchPromptPopup = () => {
+  searchPromptPopupVisible.value = !searchPromptPopupVisible.value;
 };
 
 // Function to handle the prompt submission from PromptInput
@@ -114,6 +120,8 @@ onMounted(async () => {
       :current-prompt="currentPrompt" 
       @delete-prompt="deletePrompt" 
       @select-prompt="handleSelectPrompt" 
+      @new-prompt="togglePromptInput"
+      @search-prompt="toggleSearchPromptPopup"
     />
 
     <TextEditor :prompt="currentPrompt" @save-text="updatePrompt" />

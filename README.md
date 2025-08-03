@@ -20,10 +20,8 @@ TODO List:
 [x] Delete Prompts
 [x] Save Text to DB
 [x] Load Text from Database and store in TextEditor
-[ ] Signify open Prompt in Sidebar
-[ ] New Prompt Button in Sidebar
-[ ] Hide Sidebar Button in Sidebar
-[ ] New Prompt Button in Sidebar
+[x] Signify open Prompt in Sidebar
+[x] New Prompt Button in Sidebar
 [ ] Search Prompts in Sidebar
 [ ] Set up OpenAPI
 [ ] AI Generated Prompts

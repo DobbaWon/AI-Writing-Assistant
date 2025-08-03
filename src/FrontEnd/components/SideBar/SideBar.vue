@@ -1,5 +1,7 @@
 <script>
 import DeletePromptButton from './DeletePromptButton.vue';
+import NewPromptButton from './NewPromptButton.vue';
+import SearchPromptButton from './SearchPromptsButton.vue';
 
 export default {
   name: 'SideBar',
@@ -15,6 +17,8 @@ export default {
   },
   components: {
     DeletePromptButton,
+    NewPromptButton,
+    SearchPromptButton
   },
   methods: {
     handleDeletePrompt(promptId) {
@@ -31,6 +35,12 @@ export default {
         hour: '2-digit',
         minute: '2-digit'
       });
+    },
+    handleNewPrompt() {
+      this.$emit('new-prompt');
+    },
+    handleSearchPrompt() {
+      this.$emit('search-prompt');
     }
   },
 }
@@ -38,6 +48,8 @@ export default {
 
 <template>
   <div class="sidebar">
+    <NewPromptButton @new-prompt="handleNewPrompt" />
+    <SearchPromptButton @search-prompt="handleSearchPrompt" />
     <ul>
       <li
         v-for="(item, index) in promptList"
@@ -72,9 +84,11 @@ export default {
   background-color: #121212;
   border-radius: 15px;
   transition: background-color 0.3s ease;
+  border-bottom: 2px solid #333333;
+  
 }
 .current-prompt-title {
-  background-color: #4b4b4b !important; /* I love that labelling it important fixed my issue */
+  background-color: #2c2c2c !important; /* I love that labelling it important fixed my issue */
 }
 .sidebar li:hover {
   background-color: #2c2c2c;
