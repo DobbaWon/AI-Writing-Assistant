@@ -20,6 +20,7 @@ const togglePromptInput = () => {
 // Function to handle the search prompt action
 const toggleSearchPromptPopup = () => {
   searchPromptPopupVisible.value = !searchPromptPopupVisible.value;
+  searchedPrompts.value = promptList.value; // Reset search results to all prompts
 };
 
 // Function to handle the prompt submission from PromptInput
