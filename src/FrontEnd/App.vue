@@ -2,12 +2,14 @@
 import PromptInput from './components/PromptInput/PromptInput.vue';
 import SideBar from './components/SideBar/SideBar.vue';
 import TextEditor from './components/TextEditor/TextEditor.vue';
+import SearchPromptPopup from './components/SearchPromptPopup.vue';
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
 
 const promptInputVisible = ref(true);
 const promptList = ref([]);
 const currentPrompt = ref({}); // Dirty fix to hold the current prompt data
+const searchedPrompts = ref([]); // Holds the prompts found by search
 const searchPromptPopupVisible = ref(false);
 
 // Function to toggle the visibility of the PromptInput component
@@ -84,7 +86,6 @@ const updatePrompt = async (prompt, text) => {
   }
 };
 
-
 const fetchCurrentPrompt = async (promptId) => {
   try {
     const response = await axios.get(`http://localhost:5221/api/promptentries/${promptId}`);
@@ -95,13 +96,29 @@ const fetchCurrentPrompt = async (promptId) => {
   }
 };
 
- const handleSelectPrompt = async (item) => {
+const handleSelectPrompt = async (item) => {
   if (typeof item === 'object' && item.id) {
     await fetchCurrentPrompt(item.id);
   } else if (typeof item === 'number') {
     await fetchCurrentPrompt(promptList.value[item].id);
   } else {
     console.warn('Invalid prompt selection:', item);
+  }
+};
+
+const searchPrompts = async (searchTerm) => {
+  try {
+    if (!searchTerm) {
+      searchedPrompts.value = promptList.value; // Reset to all prompts if search term is empty
+      return;
+    }
+    const response = await axios.get(`http://localhost:5221/api/promptentries/search`, {
+      params: { prompt: searchTerm }
+    });
+    searchedPrompts.value = response.data;
+    console.log('Search results:', searchedPrompts.value);
+  } catch (error) {
+    console.error('Failed to search prompts:', error);
   }
 };
 
@@ -131,6 +148,14 @@ onMounted(async () => {
       @prompt-submitted="handlePromptSubmitted" 
       @close-input="togglePromptInput" 
     />
+
+    <SearchPromptPopup
+      :searchedPrompts="searchedPrompts"
+      v-if="searchPromptPopupVisible"
+      @close="toggleSearchPromptPopup"
+      @search="searchPrompts"
+      @select-prompt="handleSelectPrompt"
+    />
   </div>
 </template>
 
@@ -142,4 +167,5 @@ onMounted(async () => {
   width: 100vw;
   overflow: hidden;
 }
+
 </style>

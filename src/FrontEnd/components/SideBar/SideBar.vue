@@ -85,7 +85,6 @@ export default {
   border-radius: 15px;
   transition: background-color 0.3s ease;
   border-bottom: 2px solid #333333;
-  
 }
 .current-prompt-title {
   background-color: #2c2c2c !important; /* I love that labelling it important fixed my issue */

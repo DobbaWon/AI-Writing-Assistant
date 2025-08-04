@@ -54,7 +54,7 @@ export default {
   position: absolute;
   width: 40vw;
   height: 32vh;
-  top: 30%;
+  top: 18%;
   left: 30%;
   background-color: rgb(127, 124, 124);
   border: 2px solid white;

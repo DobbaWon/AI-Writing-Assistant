@@ -97,5 +97,19 @@ namespace MyApi.Controllers
             return Ok(prompt);
         }
 
+        // 7. GET: api/promptentries/{prompt}/text
+        // Allows for searching by prompt text
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchPrompts([FromQuery] string prompt)
+        {
+            var results = await _context.PromptEntries
+                .Where(p => p.Prompt.Contains(prompt)) // Filter by prompt text
+                .Select(p => new { p.Id, p.Prompt, p.Text }) // Select relevant fields
+                .ToListAsync();
+
+            if (results.Count == 0) return Ok(new List<object>()); // Return empty list if no results
+
+            return Ok(results);
+        }
     }
 }

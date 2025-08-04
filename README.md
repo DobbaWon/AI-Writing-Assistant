@@ -22,7 +22,7 @@ TODO List:
 [x] Load Text from Database and store in TextEditor
 [x] Signify open Prompt in Sidebar
 [x] New Prompt Button in Sidebar
-[ ] Search Prompts in Sidebar
+[x] Search Prompts in Sidebar
 [ ] Set up OpenAPI
 [ ] AI Generated Prompts
 [ ] AI Feedback
