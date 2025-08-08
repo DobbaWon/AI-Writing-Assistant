@@ -2,13 +2,21 @@
 import GeneratePromptButton from './GeneratePromptButton.vue';
 import SubmitPromptButton from './SubmitPromptButton.vue';
 import DeletePromptButton from '../SideBar/DeletePromptButton.vue'; // Sorry...
+import AIPromptsPopup from './AIPromptsPopup.vue';
 
 export default {
   name: 'PromptInput',
+  props: {
+    aiGeneratedPrompts: {
+      type: Array,
+      default: () => []
+    }
+  },
   components: {
     GeneratePromptButton,
     SubmitPromptButton,
-    DeletePromptButton
+    DeletePromptButton,
+    AIPromptsPopup
   },
   methods: {
     submitPrompt() {
@@ -23,8 +31,34 @@ export default {
     },
     closeInput() {
       this.$emit('close-input');
+    },
+    closeBoth() {
+      this.toggleAIPromptsPopup();
+      this.closeInput();
+    },
+    toggleAIPromptsPopup() {
+      if (this.isAIPromptsPopupVisible) {
+        this.isAIPromptsPopupVisible = false;
+      } else {
+        this.fetchAIPrompts();
+        this.isAIPromptsPopupVisible = true;
+      }
+    },
+    fetchAIPrompts() {
+      this.$emit('fetch-ai-prompts');
+    },
+    regeneratePrompts() {
+      this.$emit('regenerate-prompts', this.aiGeneratedPrompts);
+    },
+    selectPrompt(prompt) {
+      this.$emit('prompt-submitted', prompt);
     }
-  }
+  },
+  data() {
+    return {
+      isAIPromptsPopupVisible: false, // Control visibility of the AI prompts popup
+    };
+  },
 }
 </script>
 
@@ -42,11 +76,20 @@ export default {
 
     <div class="AI-prompt">
       <h2> Or, use AI to generate a prompt:</h2>
-      <GeneratePromptButton @generate="submitPrompt" />
+      <GeneratePromptButton @generate="toggleAIPromptsPopup" />
     </div>
 
     <SubmitPromptButton @submit="submitPrompt" />
   </div>
+
+  <AIPromptsPopup 
+    v-if="isAIPromptsPopupVisible" 
+    :prompts="aiGeneratedPrompts" 
+    @close-input="toggleAIPromptsPopup"
+    @regenerate-prompts="regeneratePrompts"
+    @prompt-selected="selectPrompt"
+    @close="closeBoth"
+  />
 </template>
 
 <style scoped>

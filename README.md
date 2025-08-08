@@ -2,14 +2,8 @@
 A project I am making to introduce the OpenAPI to my portfolio of tools. I have used it before, but that work isn't on my GitHub, and I can't find it. This writing assistant project might also be useful for me as a tool. Could I call this a SaaS project? Haha.
 
 TO RUN PROJECT:
-cd src
-cd FrontEnd
-npm install axios
 npm run dev
-
-cd Backend
-cd MyApi
-dotnet run
+Dependencies see package.json 
 
 
 TODO List:
@@ -23,8 +17,9 @@ TODO List:
 [x] Signify open Prompt in Sidebar
 [x] New Prompt Button in Sidebar
 [x] Search Prompts in Sidebar
-[ ] Set up OpenAPI
-[ ] AI Generated Prompts
+[x] Set up OpenAPI
+[x] AI Generated Prompts
+[ ] Better Placeholder for waiting for API
 [ ] AI Feedback
 [ ] Download Prompt and Text to Local Device
 [ ] Login and Accounts

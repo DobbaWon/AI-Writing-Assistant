@@ -11,6 +11,7 @@ const promptList = ref([]);
 const currentPrompt = ref({}); // Dirty fix to hold the current prompt data
 const searchedPrompts = ref([]); // Holds the prompts found by search
 const searchPromptPopupVisible = ref(false);
+const aiGeneratedPrompts = ref([]);
 
 // Function to toggle the visibility of the PromptInput component
 const togglePromptInput = () => {
@@ -49,7 +50,6 @@ const handlePromptSubmitted = async (submittedPrompt) => {
     console.error('Failed to save or fetch new prompt:', error);
   }
 };
-
 
 // Function to fetch the list of prompts from the backend
 const fetchPrompts = async () => {
@@ -123,6 +123,21 @@ const searchPrompts = async (searchTerm) => {
   }
 };
 
+const generateAIPrompts = async (currentPrompts) => {
+  console.log('Generating AI prompts with current prompts:', currentPrompts, " and existing prompts:", promptList.value);
+  try {
+    const response = await axios.post('http://localhost:5222/api/openai/ai-prompts', {
+      currentPrompts,
+      existingPrompts: promptList.value
+    });
+    aiGeneratedPrompts.value = response.data;
+    console.log('AI-generated prompts fetched:', aiGeneratedPrompts.value);
+  } catch (error) {
+    console.error('Failed to fetch AI-generated prompts:', error);
+  }
+};
+
+
 onMounted(async () => {
   // Get the list of prompts from the backend
   await fetchPrompts();
@@ -148,6 +163,9 @@ onMounted(async () => {
       v-if="promptInputVisible == true" 
       @prompt-submitted="handlePromptSubmitted" 
       @close-input="togglePromptInput" 
+      @fetch-ai-prompts="generateAIPrompts"
+      @regenerate-prompts="generateAIPrompts"
+      :aiGeneratedPrompts="aiGeneratedPrompts"
     />
 
     <SearchPromptPopup
