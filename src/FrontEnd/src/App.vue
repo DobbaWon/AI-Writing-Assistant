@@ -124,6 +124,7 @@ const searchPrompts = async (searchTerm) => {
 };
 
 const generateAIPrompts = async (currentPrompts) => {
+  aiGeneratedPrompts.value = [];
   console.log('Generating AI prompts with current prompts:', currentPrompts, " and existing prompts:", promptList.value);
   try {
     const response = await axios.post('http://localhost:5222/api/openai/ai-prompts', {

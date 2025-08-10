@@ -103,7 +103,7 @@ namespace MyApi.Controllers
         public async Task<IActionResult> SearchPrompts([FromQuery] string prompt)
         {
             var results = await _context.PromptEntries
-                .Where(p => p.Prompt.Contains(prompt)) // Filter by prompt text
+                .Where(p => p.Prompt.ToLower().Contains(prompt.ToLower())) // Filter by prompt text
                 .Select(p => new { p.Id, p.Prompt, p.Text }) // Select relevant fields
                 .ToListAsync();
 
