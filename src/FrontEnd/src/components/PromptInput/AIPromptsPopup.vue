@@ -1,10 +1,12 @@
 <script>
 import DeletePromptButton from '../SideBar/DeletePromptButton.vue';
+import GeneratingPromptsPlaceholder from './GeneratingPromptsPlaceholder.vue';
 
 export default {
   name: 'AIPromptsPopup',
   components: {
     DeletePromptButton,
+    GeneratingPromptsPlaceholder
   },
   props: {
     prompts: {
@@ -45,7 +47,7 @@ export default {
             {{ prompt }}
           </li>
         </ul>
-        <p v-else>Generating AI Prompts...</p>
+        <GeneratingPromptsPlaceholder class="loading-icon" v-else/>
       </div>
 
       <div class="regenerate-section">
@@ -145,6 +147,12 @@ h2 { /*AI Prompt Title */
 button:hover {
   background-color: #cccaca;
   transition: background-color 0.3s ease;
+}
+
+.loading-icon {
+  position: absolute;
+  top: 240px;
+  left: 300px;
 }
 
 p {
