@@ -19,7 +19,7 @@ TODO List:
 [x] Search Prompts in Sidebar
 [x] Set up OpenAPI
 [x] AI Generated Prompts
-[ ] Better Placeholder for waiting for API
+[x] Better Placeholder for waiting for API
 [ ] AI Feedback
 [ ] Download Prompt and Text to Local Device
 [ ] Login and Accounts
