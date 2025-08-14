@@ -12,6 +12,10 @@ export default {
     prompt: {
       type: Object,
       default: () => ({ prompt: 'No Prompt Provided', text: '' })
+    },
+    feedback: {
+      type: String,
+      default: ""
     }
   },
   methods: {
@@ -20,11 +24,16 @@ export default {
     },
     getFeedback() {
       this.$emit('get-feedback', this.prompt, this.editorText);
+      this.isFeedbackBoxShowing = true;
+    },
+    closeFeedback() {
+      this.isFeedbackBoxShowing = false;
     }
   },
   data() {
     return {
       editorText: '',
+      isFeedbackBoxShowing: false,
     };
   },
   watch: {
@@ -44,9 +53,21 @@ export default {
 
 <template>
   <div class="text-editor">
-    <EditorHeader :prompt="prompt.prompt" @save-text="saveText" @get-feedback="getFeedback"/>
-    <textarea class="editor-textarea" placeholder="Type your text here..." v-model="editorText"></textarea>
-    <FeedbackBox />
+    <EditorHeader 
+      :prompt="prompt.prompt" 
+      @save-text="saveText" 
+      @get-feedback="getFeedback"
+    />
+    <textarea 
+      class="editor-textarea" 
+      placeholder="Type your text here..." 
+      v-model="editorText">
+    </textarea>
+    <FeedbackBox 
+      v-if="isFeedbackBoxShowing" 
+      :feedback=feedback 
+      @close="closeFeedback"
+    />
   </div>
 </template>
 

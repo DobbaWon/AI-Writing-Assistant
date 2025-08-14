@@ -185,7 +185,12 @@ onMounted(async () => {
       @search-prompt="toggleSearchPromptPopup"
     />
 
-    <TextEditor :prompt="currentPrompt" @save-text="updatePrompt" @get-feedback="generateAIFeedback"/>
+    <TextEditor
+      :prompt="currentPrompt" 
+      :feedback="aiFeedback" 
+      @save-text="updatePrompt" 
+      @get-feedback="generateAIFeedback"
+    />
 
     <PromptInput
       v-if="promptInputVisible == true" 

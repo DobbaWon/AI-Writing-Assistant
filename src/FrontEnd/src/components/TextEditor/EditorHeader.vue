@@ -57,7 +57,7 @@ h1 {
 }
 
 .get-feedback-button {
-  margin-left: 1300px;
+  margin-left: 20vw;
 }
 
 </style>
