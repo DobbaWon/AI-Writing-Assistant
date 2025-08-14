@@ -17,6 +17,9 @@ export default {
   methods: {
     saveText() {
       this.$emit('save-text', this.prompt, this.editorText);
+    },
+    getFeedback() {
+      this.$emit('get-feedback', this.prompt, this.editorText);
     }
   },
   data() {
@@ -41,7 +44,7 @@ export default {
 
 <template>
   <div class="text-editor">
-    <EditorHeader :prompt="prompt.prompt" @save-text="saveText" />
+    <EditorHeader :prompt="prompt.prompt" @save-text="saveText" @get-feedback="getFeedback"/>
     <textarea class="editor-textarea" placeholder="Type your text here..." v-model="editorText"></textarea>
     <FeedbackBox />
   </div>
@@ -60,7 +63,7 @@ export default {
   height: 90vh;
   resize: none;
   padding: 10px;
-  font-size: 16px;
+  font-size: 1.4rem;
   outline: none;
   border-bottom: 2px solid #7e7e7e;
 

@@ -12,6 +12,7 @@ const currentPrompt = ref({}); // Dirty fix to hold the current prompt data
 const searchedPrompts = ref([]); // Holds the prompts found by search
 const searchPromptPopupVisible = ref(false);
 const aiGeneratedPrompts = ref([]);
+const aiFeedback = ref("");
 
 // Function to toggle the visibility of the PromptInput component
 const togglePromptInput = () => {
@@ -89,6 +90,7 @@ const updatePrompt = async (prompt, text) => {
 
 const fetchCurrentPrompt = async (promptId) => {
   try {
+    promptInputVisible.value = false;
     const response = await axios.get(`http://localhost:5221/api/promptentries/${promptId}`);
     currentPrompt.value = response.data;
     console.log('Current prompt fetched:', currentPrompt.value);
@@ -138,6 +140,31 @@ const generateAIPrompts = async (currentPrompts) => {
   }
 };
 
+const generateAIFeedback = async (_prompt, _text) => {
+  try {
+    await axios.put(`http://localhost:5221/api/promptentries/${_prompt.id}`, {
+      Prompt: _prompt.prompt,
+      Text: _text
+    });
+    console.log('Prompt updated:', prompt.id);
+    await fetchPrompts();
+  } catch (error) {
+    console.error('Failed to update prompt:', error);
+  }
+  try{
+    const response = await axios.post('http://localhost:5222/api/openai/ai-feedback', {
+      prompt: _prompt.prompt,
+      text: _text
+    });
+    aiFeedback.value = response.data;
+
+    console.log("Feedback: " + response.data);
+
+  } catch (error){
+    console.error('Failed to generate feedback ', error);
+  }
+};
+
 
 onMounted(async () => {
   // Get the list of prompts from the backend
@@ -158,7 +185,7 @@ onMounted(async () => {
       @search-prompt="toggleSearchPromptPopup"
     />
 
-    <TextEditor :prompt="currentPrompt" @save-text="updatePrompt" />
+    <TextEditor :prompt="currentPrompt" @save-text="updatePrompt" @get-feedback="generateAIFeedback"/>
 
     <PromptInput
       v-if="promptInputVisible == true" 
