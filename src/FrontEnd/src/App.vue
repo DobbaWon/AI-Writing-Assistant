@@ -35,7 +35,6 @@ const handlePromptSubmitted = async (submittedPrompt) => {
     });
 
     console.log('Prompt successfully saved to DB');
-
     await fetchPrompts(); // Refresh the prompt list
 
     // Find the newly added prompt from the list (latest by name match)

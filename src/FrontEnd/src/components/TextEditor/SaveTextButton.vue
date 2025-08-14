@@ -19,6 +19,8 @@ export default {
   border: 1px solid rgb(200, 200, 200);
   border-radius: 5px;
   cursor: pointer;
+  height: 50px;
+  width: 200px;
 }
 .save-text-button:hover {
   background-color: rgb(200, 200, 200);

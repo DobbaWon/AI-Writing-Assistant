@@ -76,6 +76,9 @@ export default {
   padding: 0;
 }
 .sidebar li {
+  display: flex;
+  align-items: center; /* vertically center everything */
+  justify-content: space-between; /* pushes prompt text left, button right */
   padding: 20px;
   margin-bottom: 4px;
   color: white;
@@ -86,14 +89,12 @@ export default {
   transition: background-color 0.3s ease;
   border-bottom: 2px solid #333333;
 }
+
 .current-prompt-title {
   background-color: #2c2c2c !important; /* I love that labelling it important fixed my issue */
 }
 .sidebar li:hover {
   background-color: #2c2c2c;
-}
-.delete-prompt-button {
-  float: right;
 }
 .delete-prompt-button:hover {
   color: red;

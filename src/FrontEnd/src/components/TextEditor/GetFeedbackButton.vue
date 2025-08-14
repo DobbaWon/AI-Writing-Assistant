@@ -22,6 +22,9 @@ export default{
   border: 1px solid rgb(200, 200, 200);
   border-radius: 5px;
   cursor: pointer;
+  height: 50px;
+  width: 300px;
+  margin-right: 40px;
 }
 .get-feedback-button:hover {
   background-color: rgb(200, 200, 200);
