@@ -20,8 +20,8 @@ TODO List:
 [x] Set up OpenAPI
 [x] AI Generated Prompts
 [x] Better Placeholder for waiting for API
-[ ] AI Feedback
-[ ] Download Prompt and Text to Local Device
+[X] AI Feedback
+[X] Download Prompt and Text to Local Device
 [ ] Login and Accounts
 [ ] UX Considerations
 [ ] UI Tweaks 

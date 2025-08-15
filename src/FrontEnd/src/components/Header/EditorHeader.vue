@@ -1,11 +1,14 @@
 <script>
 import GetFeedbackButton from './GetFeedbackButton.vue';
 import SaveTextButton from './SaveTextButton.vue';
+import DownloadButton from './DownloadButton.vue';
+
 export default {
   name: 'EditorHeader',
   components: {
     SaveTextButton,
-    GetFeedbackButton
+    GetFeedbackButton,
+    DownloadButton
   },
   props: {
     prompt: {
@@ -19,6 +22,9 @@ export default {
     },
     getFeedback(){
       this.$emit('get-feedback');
+    },
+    download(){
+      this.$emit('download');
     }
   }
 }
@@ -27,6 +33,7 @@ export default {
 <template>
   <div class="editor-header">
     <h1>{{ prompt }}</h1>
+    <DownloadButton @download="download"/>
     <GetFeedbackButton @get-feedback="getFeedback"/>
     <SaveTextButton @save="saveText" />
   </div>
@@ -56,8 +63,9 @@ h1 {
   font-weight: bold;
 }
 
-.get-feedback-button {
+.download-button {
   margin-left: 20vw;
+  margin-right: 1.5vw;
 }
 
 </style>

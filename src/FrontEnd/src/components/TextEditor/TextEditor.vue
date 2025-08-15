@@ -1,5 +1,5 @@
 <script>
-import EditorHeader from './EditorHeader.vue';
+import EditorHeader from '../Header/EditorHeader.vue';
 import FeedbackBox from './FeedbackBox.vue';
 
 export default {
@@ -28,6 +28,9 @@ export default {
     },
     closeFeedback() {
       this.isFeedbackBoxShowing = false;
+    },
+    download(){
+      this.$emit('download', this.prompt, this.editorText)
     }
   },
   data() {
@@ -57,6 +60,7 @@ export default {
       :prompt="prompt.prompt" 
       @save-text="saveText" 
       @get-feedback="getFeedback"
+      @download="download"
     />
     <textarea 
       class="editor-textarea" 

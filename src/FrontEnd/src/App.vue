@@ -164,6 +164,21 @@ const generateAIFeedback = async (_prompt, _text) => {
   }
 };
 
+const download = async (_prompt, _text) => { // Probably doesn't need to be async
+  const downloadString = _prompt.prompt.slice(0, -3) + "\n\n\n" + _text;
+
+  const blob = new Blob([downloadString], {type: "text/plain"});
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = _prompt.prompt.slice(0, -3);
+  document.body.appendChild(a);
+  a.click();
+
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
 
 onMounted(async () => {
   // Get the list of prompts from the backend
@@ -189,6 +204,7 @@ onMounted(async () => {
       :feedback="aiFeedback" 
       @save-text="updatePrompt" 
       @get-feedback="generateAIFeedback"
+      @download="download"
     />
 
     <PromptInput

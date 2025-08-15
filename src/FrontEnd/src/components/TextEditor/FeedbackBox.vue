@@ -9,14 +9,14 @@ export default {
   methods: {
     close(){
       this.$emit('close');
-    }
+    },
   },
   props:{
     feedback: {
       type: String,
       default: "Waiting for AI Feedback"
     }
-  }
+  },
 }
 </script>
 

@@ -29,7 +29,7 @@ export const generateAIPromptsService = async (existingAIPrompts = [], existingP
 
 export const generateAIFeedbackService = async (prompt = "", text = "") => {
   try{
-    const systemMessage = `Here is the prompt that a user is writing about: ${prompt}. Here is what they have written: ${text} What is good about it and what is bad about it. Where can they improve?`;
+    const systemMessage = `Here is the prompt that a user is writing about: ${prompt}. Here is what they have written: ${text} What is good about it and what is bad about it. Where can they improve? Keep it short and sweet, and dont use any text formatting characters, so no bold, no italics. When referring directly to user's text examples, surround it in quotation marks.`;
 
     const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
